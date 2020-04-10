@@ -3,12 +3,12 @@ package ru.javamentor.preproject.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.javamentor.preproject.service.UserService;
 import ru.javamentor.preproject.model.Role;
 import ru.javamentor.preproject.model.User;
-
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,8 +36,8 @@ public class UserController {
         List<User> allUser = userService.findAll();
         mav.setViewName("admin");
         mav.addObject("listUser", allUser);
-        User user = new User();
-        mav.addObject("user", user);
+        mav.addObject("user", new User());
+        mav.addObject("roles", Role.values());
         return mav;
     }
 
@@ -56,26 +56,16 @@ public class UserController {
         mav.setViewName("edit");
         return mav;
     }
-
+    
     @PostMapping("/admin/update")
-    public String updateUser(@ModelAttribute("user") User user, HttpServletRequest req) {
-        Set<Role> roles = user.getRoles();
-        String RoleUser = req.getParameter("user");
-        String RoleAdmin = req.getParameter("admin");
-        if (RoleUser != null) {
-            roles.add(Role.USER);
-        }
-        if (RoleAdmin != null) {
-            roles.add(Role.ADMIN);
-        }
-        user.setRoles(roles);
+    public String updateUser(@ModelAttribute("user") User user) {
         userService.saveOrUpdate(user);
-        return "redirect: /admin";
+        return "redirect:/admin";
     }
 
    @GetMapping("/admin/delete")
     public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteById(id);
-        return "redirect: /admin";
+        return "redirect:/admin";
     }
 }

@@ -27,17 +27,14 @@ public class User implements UserDetails {
     
     @Column(name="lastname")
     private String lastName;
-
-    @ElementCollection(targetClass=Role.class,
-                       fetch=FetchType.EAGER)
-    @CollectionTable(name="user_role",
-                     joinColumns=@JoinColumn(name="user_id"))
+    
+    @Column
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles = new HashSet<>();
+    private Role roles;
 
     public User() {}
     
-    public User(String username, String password, String firstName, String lastName, Set<Role> roles) {
+    public User(String username, String password, String firstName, String lastName, Role roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -84,7 +81,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        Set<Role> roles = new HashSet();
+        roles.add(getRoles());
+        return roles;
     }
 
     @Override
@@ -96,13 +95,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Role roles) {
         this.roles = roles;
     }
 
-    public Set<Role> getRoles() {
+    public Role getRoles() {
         return roles;
     }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -117,13 +117,5 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-    
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    public void removeRole(Role role) {
-        this.roles.remove(role);
     }
 }

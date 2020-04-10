@@ -9,6 +9,7 @@ import ru.javamentor.preproject.model.User;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     private EntityManager manager;
@@ -17,7 +18,6 @@ public class UserDaoImpl implements UserDao {
     public UserDaoImpl(EntityManager manager) {
         this.manager = manager;
     }
-
 
     @Override
     public List<User> findAll() {
@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Long id) {
-        Query query =  manager.unwrap(Session.class).createQuery("FROM User WHERE id=:id");
+        Query query = manager.unwrap(Session.class).createQuery("FROM User WHERE id=:id");
         query.setParameter("id", id);
         return (User) query.uniqueResult();
     }
@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findUserByName(String username) {
-        Query query =  manager.unwrap(Session.class).createQuery("FROM User WHERE username=:username");
+        Query query = manager.unwrap(Session.class).createQuery("FROM User WHERE username=:username");
         query.setParameter("username", username);
         return (User) query.uniqueResult();
     }

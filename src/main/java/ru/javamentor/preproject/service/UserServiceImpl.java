@@ -1,6 +1,5 @@
 package ru.javamentor.preproject.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.javamentor.preproject.dao.UserDao;
@@ -8,6 +7,7 @@ import ru.javamentor.preproject.model.User;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserDao userDao;

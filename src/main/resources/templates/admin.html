@@ -94,7 +94,7 @@
                                         </button>
                                         <div class="modal fade" id="myModal" role="dialog"
                                              th:attrappend="id=${user.id}">
-                                            <form th:action="@{/admin/update}" method="post">
+                                            <form th:action="@{/admin/update}" method="POST">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -147,17 +147,16 @@
                                                             </div>
                                                             <div class="form-group add-form">
                                                                 <label for="roles" class="add-form">Role</label>
-                                                                <select multiple class="form-control" style="height: 60px" id="roles"
-                                                                        name="roles">
-                                                                    <option name="user">USER</option>
-                                                                    <option name="admin">ADMIN</option>
+                                                                <select multiple class="form-control" style="height: 60px" id="roles" name="roles">
+                                                                    <option th:each="role : ${roles}"
+                                                                        th:value="${role}"
+                                                                        th:text="${role}"
+                                                                        th:selected="${#strings.equals(role, user.roles)}" />
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
-                                                                Close
-                                                            </button>
+                                                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-sm btn-primary">Edit</button>
                                                         </div>
                                                     </div>
@@ -167,9 +166,8 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#delModal" th:attrappend="data-target=${user.id}">Delete
-                                        </button>
-                                        <div class="modal fade" id="delModal"   th:attrappend="id=${user.id}" tabindex="-1"
+                                                data-target="#delModal" th:attrappend="data-target=${user.id}">Delete</button>
+                                        <div class="modal fade" id="delModal" th:attrappend="id=${user.id}" tabindex="-1"
                                              role="dialog" aria-labelledby="removeModalCenterTitle" aria-hidden="true">
                                             <form th:action="@{/admin/delete(id=${user.id})}" method="get">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
